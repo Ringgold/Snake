@@ -24,10 +24,10 @@ public class Block {
         if (frame == 1) {
             g2d.setColor(Color.black);
         } else if (frame == 2) {
-            g2d.setColor(Color.green);
+            g2d.setColor(new Color(0, 80, 0));
+        } else if (frame == 3) {
+            g2d.setColor(new Color(200, 0, 0));
         }
         g2d.fillRect(x, y, width, height);
-        g2d.setColor(Color.white);
-        g2d.drawRect(x, y, width, height);
     }
 }

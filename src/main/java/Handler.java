@@ -10,20 +10,24 @@ public class Handler implements Runnable {
     public Handler() {
         map = new ArrayList<List<Block>>();
         gui = new Gui();
-    }
-
-    private void generateMap() {
         Graphics2D g2d = gui.getBuffer().createGraphics();
         for (int i = 0; i < Constants.ROW; i++) {
             List<Block> row = new ArrayList<Block>();
             for (int j = 0; j < Constants.COL; j++) {
                 Block block = new Block(j, i, g2d);
-                block.gotoAndStop(1);
                 row.add(block);
             }
             map.add(row);
         }
         snake = new Snake(map);
+    }
+
+    private void generateMap() {
+        for (List<Block> row : map) {
+            for (Block block : row) {
+                block.gotoAndStop(1);
+            }
+        }
         snake.show();
         gui.repaint();
     }
@@ -37,8 +41,11 @@ public class Handler implements Runnable {
         }
         //noinspection InfiniteLoopStatement
         while (true) {
-            snake.move();
+            int fb = snake.move();
             gui.repaint();
+            if (fb == -1) {
+                generateMap();
+            }
             try {
                 Thread.sleep(Constants.INTERVAL);
             } catch (InterruptedException e) {
